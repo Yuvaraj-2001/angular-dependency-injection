@@ -1,17 +1,23 @@
 import { Component, Optional, Self, SkipSelf } from '@angular/core';
 import { LoggerService } from './logger.service'; 
+import { ExperimentService } from './experiment.service';
 import { OptionalService } from './optional.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [LoggerService]
+  providers: [{
+    provide: LoggerService,
+    useClass: ExperimentService // useExisting
+  }]
 })
 export class AppComponent {
   title = 'angular-app';
-  constructor(@Optional() private options: OptionalService, @Self() private logger: LoggerService, @SkipSelf() private skipLog: LoggerService){
-    this.skipLog.log("Skiping App component");
+  constructor(private logger: LoggerService, private exLog: ExperimentService){
+    // this.skipLog.log("Skiping App component");
     this.logger.log("App component");
+
+    console.log(this.logger === this.exLog);
     
   }
   ngOnInit(){
