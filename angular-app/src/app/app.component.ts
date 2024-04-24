@@ -2,13 +2,16 @@ import { Component, Optional, Self, SkipSelf } from '@angular/core';
 import { LoggerService } from './logger.service'; 
 import { ExperimentService } from './experiment.service';
 import { OptionalService } from './optional.service';
+import { legacyLog } from './logger.legacy';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [{
     provide: LoggerService,
-    useClass: ExperimentService // useExisting
+    // useClass: ExperimentService // useExisting
+    useValue: legacyLog // useExisting
+
   }]
 })
 export class AppComponent {
