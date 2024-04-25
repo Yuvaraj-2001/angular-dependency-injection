@@ -3,6 +3,7 @@ import { LoggerService } from './logger.service';
 import { ExperimentService } from './experiment.service';
 import { OptionalService } from './optional.service';
 import { legacyLog } from './logger.legacy';
+import { APP_CONFIG, config } from './global.token';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,9 +11,13 @@ import { legacyLog } from './logger.legacy';
   providers: [{
     provide: LoggerService,
     // useClass: ExperimentService // useExisting
-    useValue: legacyLog // useExisting
-
-  }]
+    // useValue: legacyLog // useExisting
+    useFactory: (config:config) => {
+      return config.experimental ? new ExperimentService(config) : new LoggerService() ;
+    },
+    deps: [APP_CONFIG]  // by using factories, we can switch between class providers
+  }
+  ]
 })
 export class AppComponent {
   title = 'angular-app';

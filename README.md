@@ -8,3 +8,9 @@
  - use Existing
  - useValue
  - useFactory
+
+for USe factory,
+
+global.token.ts
+app.compoenent.ts
+experiment.service
